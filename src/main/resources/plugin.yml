@@ -1,0 +1,6 @@
+name: SurvivelistWarnings
+version: ${project.version}
+main: itzshmulik.survivelist.survivelistwarnings.SurvivelistWarnings
+api-version: 1.17
+authors: [ ItzShmulik, The_Regurgitator ]
+description: Survivelist's advanced warning system!
