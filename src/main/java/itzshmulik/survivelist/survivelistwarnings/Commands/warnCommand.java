@@ -18,14 +18,17 @@ public class warnCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
+
         // Enables the /warn command, works only if the target is online.
         Player player = (Player) sender;
-        if(args.length > 0){
-            Player target = Bukkit.getPlayerExact(args[0]);
-            if(target instanceof Player){
+        if(player.hasPermission("warnings.warn")) {
+            if (args.length > 0) {
+                Player target = Bukkit.getPlayerExact(args[0]);
+                if (target instanceof Player) {
 
-            }else {
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', offlinePlayerMsg));
+                } else {
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', offlinePlayerMsg));
+                }
             }
         }
         return false;

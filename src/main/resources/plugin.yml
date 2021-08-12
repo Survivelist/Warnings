@@ -7,3 +7,5 @@ description: Survivelist's advanced warning system!
 commands:
   warn:
     description: Allows a staff member to warn a player.
+  wreload:
+    description: Reloads plugin's config.
