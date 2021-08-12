@@ -4,3 +4,6 @@ main: itzshmulik.survivelist.survivelistwarnings.SurvivelistWarnings
 api-version: 1.17
 authors: [ ItzShmulik, The_Regurgitator ]
 description: Survivelist's advanced warning system!
+commands:
+  warn:
+    description: Allows a staff member to warn a player.
