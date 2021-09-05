@@ -28,27 +28,35 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Locale;
+
 /**
- * Implements the plugin reload command.
+ * Implements the plugin management (reload, etc) command.
  *
  * @since 1.0.0
  */
-public class reloadCommand implements CommandExecutor {
+public class WarningsCommand implements CommandExecutor {
 
     private final JavaPlugin plugin = JavaPlugin.getProvidingPlugin(getClass());
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-
-        Player player = (Player) sender;
-        if(player.hasPermission("warnings.reload")){
-            plugin.reloadConfig();
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aReloading plugin!"));
+        if (args.length > 0) {
+            final String firstArg = args[0].toLowerCase(Locale.ROOT);
+            if (firstArg.equals("reload")) {
+                if (!sender.hasPermission("warnings.reload")) {
+                    // TODO: send no permission message
+                    return true;
+                }
+                plugin.reloadConfig();
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aReloading plugin!"));
+                return true;
+            }
         }
+        // send usage
         return false;
     }
 }
