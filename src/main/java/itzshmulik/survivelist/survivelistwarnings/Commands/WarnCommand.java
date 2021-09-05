@@ -38,7 +38,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @since 1.0.0
  */
-public class warnCommand implements CommandExecutor {
+public class WarnCommand implements CommandExecutor {
 
     private final JavaPlugin plugin = JavaPlugin.getProvidingPlugin(getClass());
 
@@ -49,14 +49,13 @@ public class warnCommand implements CommandExecutor {
 
 
         // Enables the /warn command, works only if the target is online.
-        Player player = (Player) sender;
-        if(player.hasPermission("warnings.warn")) {
+        if(sender.hasPermission("warnings.warn")) {
             if (args.length > 0) {
                 Player target = Bukkit.getPlayerExact(args[0]);
                 if (target instanceof Player) {
 
                 } else {
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', offlinePlayerMsg));
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', offlinePlayerMsg));
                 }
             }
         }

@@ -25,7 +25,7 @@
 package itzshmulik.survivelist.survivelistwarnings;
 
 import itzshmulik.survivelist.survivelistwarnings.Commands.WarningsCommand;
-import itzshmulik.survivelist.survivelistwarnings.Commands.warnCommand;
+import itzshmulik.survivelist.survivelistwarnings.Commands.WarnCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -37,7 +37,7 @@ public final class SurvivelistWarnings extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
 
-        getCommand("warn").setExecutor(new warnCommand());
+        getCommand("warn").setExecutor(new WarnCommand());
         getCommand("warnings").setExecutor(new WarningsCommand());
 
         getConfig().options().copyDefaults();
