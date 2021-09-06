@@ -41,14 +41,17 @@ import java.util.Locale;
 public class WarningsCommand implements CommandExecutor {
 
     private final JavaPlugin plugin = JavaPlugin.getProvidingPlugin(getClass());
+    private final String NoPermMsg = plugin.getConfig().getString("No-perm-message");
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length > 0) {
             final String firstArg = args[0].toLowerCase(Locale.ROOT);
             if (firstArg.equals("reload")) {
-                if (!sender.hasPermission("warnings.reload")) {
-                    // TODO: send no permission message
+                if (!sender.hasPermission("warnings.reload") || !sender.hasPermission("warnings.admin")) {
+                    /* TODO: send no permission message
+                       Status: Done */
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', NoPermMsg));
                     return true;
                 }
                 plugin.reloadConfig();
