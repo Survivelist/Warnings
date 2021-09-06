@@ -22,31 +22,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package itzshmulik.survivelist.survivelistwarnings;
+package itzshmulik.survivelist.survivelistwarnings.Commands;
 
-import itzshmulik.survivelist.survivelistwarnings.Commands.WarningsCommand;
-import itzshmulik.survivelist.survivelistwarnings.Commands.WarnCommand;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Locale;
 
 /**
- * Main plugin class.
+ * Implements the plugin management (reload, etc) command.
+ *
+ * @since 1.0.0
  */
-public final class SurvivelistWarnings extends JavaPlugin {
+public class WarningsCommand implements CommandExecutor {
+
+    private final JavaPlugin plugin = JavaPlugin.getProvidingPlugin(getClass());
 
     @Override
-    public void onEnable() {
-        // Plugin startup logic
-
-        getCommand("warn").setExecutor(new WarnCommand());
-        getCommand("warnings").setExecutor(new WarningsCommand());
-
-        getConfig().options().copyDefaults();
-        saveDefaultConfig();
-
-    }
-
-    @Override
-    public void onDisable() {
-        // Plugin shutdown logic
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        if (args.length > 0) {
+            final String firstArg = args[0].toLowerCase(Locale.ROOT);
+            if (firstArg.equals("reload")) {
+                if (!sender.hasPermission("warnings.reload")) {
+                    // TODO: send no permission message
+                    return true;
+                }
+                plugin.reloadConfig();
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aReloading plugin!"));
+                return true;
+            }
+        }
+        // send usage
+        return false;
     }
 }

@@ -22,31 +22,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package itzshmulik.survivelist.survivelistwarnings;
+package itzshmulik.survivelist.survivelistwarnings.Commands;
 
-import itzshmulik.survivelist.survivelistwarnings.Commands.WarningsCommand;
-import itzshmulik.survivelist.survivelistwarnings.Commands.WarnCommand;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * Main plugin class.
+ * Implements the main plugin command.
+ *
+ * @since 1.0.0
  */
-public final class SurvivelistWarnings extends JavaPlugin {
+public class WarnCommand implements CommandExecutor {
+
+    private final JavaPlugin plugin = JavaPlugin.getProvidingPlugin(getClass());
+
+    String offlinePlayerMsg = plugin.getConfig().getString("Offline-target-message");
 
     @Override
-    public void onEnable() {
-        // Plugin startup logic
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
-        getCommand("warn").setExecutor(new WarnCommand());
-        getCommand("warnings").setExecutor(new WarningsCommand());
 
-        getConfig().options().copyDefaults();
-        saveDefaultConfig();
+        // Enables the /warn command, works only if the target is online.
+        if(sender.hasPermission("warnings.warn")) {
+            if (args.length > 0) {
+                Player target = Bukkit.getPlayerExact(args[0]);
+                if (target instanceof Player) {
 
-    }
-
-    @Override
-    public void onDisable() {
-        // Plugin shutdown logic
+                } else {
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', offlinePlayerMsg));
+                }
+            }
+        }
+        return false;
     }
 }
